@@ -1,4 +1,7 @@
-/*const client = require(`${process.cwd()}/index`);
+/**
+ * AUTO DELETE
+ */
+const client = require("../index");
 const D_ = new Map();
 let T_ = null; 
 
@@ -7,7 +10,7 @@ client.on("messageCreate", async message => {
     
     // let chs = await client.setups.get(`${message.guild.id}.autodelete`) || [];
     let chs = [ 
-        { id: `985130855221563474`, delay: 100 }, // delete after 3 Mins
+        { id: "985130855221563474", delay: 60000 }, // delete after 3 Mins
     ];
     if(chs && chs.some(ch => ch?.id == message.channel.id) && message.channel.type == "GUILD_TEXT"){
         const key = message.channel.id;
@@ -28,9 +31,14 @@ client.on("messageCreate", async message => {
                 .map(m => m.id);
             if(delMsgs.length > 0) {
                 D_.set(key, D_.get(key).filter(d => !delMsgs.includes(d.id))) 
+              /*message.channel.send(`\\⌚ ***Starting to Delete Messages***`).then((m) => {
+setTimeout(async () => {
+  m.delete()
+}, 10000)
+              });*/
                 message.channel.bulkDelete(delMsgs.filter(m => message.channel.messages.cache.has(m))).catch(console.error);
             }
             setTimeout(() => !D_.get(key+"c") ? checkToDelete() : null, delay);
         }
     }
-})*/
+})
